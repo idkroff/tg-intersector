@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"os"
 	"strconv"
@@ -49,13 +50,20 @@ func main() {
 		AUTH_FLOW = AUTH_FLOW_ENV
 	}
 
-	client := telegram.IntersectorClient{
+	client := telegram.New(telegram.IntersectorClientOptions{
 		API_ID:   TG_API_ID,
 		API_HASH: TG_API_HASH,
 		Phone:    TG_PHONE,
 		Password: TG_PASSWORD,
 		AuthFlow: AUTH_FLOW,
-	}
+	})
 
-	client.Run()
+	fetchModePtr := flag.Bool("fetch", false, "fetch all chats")
+	flag.Parse()
+
+	if *fetchModePtr {
+		client.RunFetch()
+	} else {
+		client.RunIntersection()
+	}
 }
