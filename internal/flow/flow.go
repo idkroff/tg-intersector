@@ -25,3 +25,13 @@ func ShowQR(ctx context.Context, token qrlogin.Token) error {
 	fmt.Printf("Open %s using your phone\n", url)
 	return nil
 }
+
+func SessionFolderName(phone string) string {
+	var out []rune
+	for _, r := range phone {
+		if r >= '0' && r <= '9' {
+			out = append(out, r)
+		}
+	}
+	return "phone-" + string(out)
+}
