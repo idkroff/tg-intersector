@@ -58,7 +58,6 @@ func New(options IntersectorClientOptions) IntersectorClient {
 
 func (client *IntersectorClient) Authorize(ctx context.Context) {
 	if client.Options.AuthFlow == "code" {
-		// TODO: add pasword field
 		if err := auth.NewFlow(
 			auth.Constant(client.Options.Phone, client.Options.Password, auth.CodeAuthenticatorFunc(flow.CodePrompt)),
 			auth.SendCodeOptions{},
@@ -93,8 +92,6 @@ func (client *IntersectorClient) RunFetch() {
 		client.Authorize(ctx)
 
 		api := client.Intersector.API()
-
-		// TODO: fetch all chats with their ids and save to file
 
 		dialogsClass, err := api.MessagesGetDialogs(
 			ctx,
